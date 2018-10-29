@@ -11,7 +11,14 @@
 	       v-bind:value="name"
 	       v-on:change="onChange">
 	<hr/>
-	<h2>Hello, {{ name }} </h2>
+	<button @click="showName = !showName">ToggleName</button>
+	<button @click="toggleName">ToggleName2</button>
+	<h2 v-if="showName">Hello, {{ name }} </h2>
+	<br/>
+	<hr/>
+	<input type="text" name="" v-model="firstName">
+	<input type="text" name="" v-model="lastName">
+	<h2>Hello, {{ fullName }} </h2>
 </div>
 
 	<script src="js/vue.js" type="text/javascript"></script>
@@ -19,20 +26,32 @@
 		sample = new Vue({
 			el: ".sample",
 			data:{
-				name: 'Default'
+				name: 'Default',
+				showName: true,
+				firstName:'',
+				lastName:''
 			},
 			methods: {
 				onChange(e){
 					console.log(this);
 					console.log(e);
+				},
+				toggleName(){
+					return this.showName = !this.showName;
+				}
+			},
+			computed: {
+
+				fullName(){
+					return this.firstName + ' ' + this.lastName;
 				}
 			}
 		});
 
 //Сброс значения при изменении размера окна
-		window.addEventListener('resize', function (){
-			sample.name= '';
-		});
+		// window.addEventListener('resize', function (){
+		// 	sample.name= '';
+		// });
 	</script>
 </body>
 </html>
