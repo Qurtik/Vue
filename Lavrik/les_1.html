@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<div class="sample">
+	<input type="" name="" 
+	       v-on:input="name = $event.target.value"
+	       v-bind:value="name"
+	       v-on:change="onChange">
+	<hr/>
+	<h2>Hello, {{ name }} </h2>
+</div>
+
+	<script src="js/vue.js" type="text/javascript"></script>
+	<script>
+		sample = new Vue({
+			el: ".sample",
+			data:{
+				name: 'Default'
+			},
+			methods: {
+				onChange(e){
+					console.log(this);
+					console.log(e);
+				}
+			}
+		});
+
+//Сброс значения при изменении размера окна
+		window.addEventListener('resize', function (){
+			sample.name= '';
+		});
+	</script>
+</body>
+</html>

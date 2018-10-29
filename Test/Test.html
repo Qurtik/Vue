@@ -5,6 +5,55 @@
 	<title>Document</title>
 </head>
 <body>
-	<p>HELLO</p>
+
+<div class="sample">
+	<button v-on:click="isShowSecondSelect = !isShowSecondSelect">ShowSelect - варианкт 1</button>
+	<button v-on:click="toggleName">ShowSelect - варианкт 2</button>
+	<br/><hr/>
+	<button v-on:click="filt">Filter</button>
+	<select name="" id="">
+		<option>Enter the city</option>
+		<option v-for="city in cities">
+			{{ city }}
+		</option>
+	</select>
+	<hr/>
+	<ul>
+		<li v-for="ar in arrS">
+			{{ ar }}
+		</li>
+	</ul>
+	<div v-if="isShowSecondSelect">
+		<p>TEST</p>
+	</div>
+
+</div>
+	<script src="vue.js" type="text/javascript"></script>
+	<script>
+		let sample = new Vue({
+			el:'.sample',
+			data: {
+				cities: ["Moscow","Germany","USA"],
+				arr: [1,23,4,52,6,2,1,4],
+				arrS:[],
+				isShowSecondSelect: false
+			},
+			methods: {
+				toggleName(){
+					this.isShowSecondSelect = !this.isShowSecondSelect
+				},
+				filt(value){
+					console.log(1);
+					this.arrS.push(value)
+					// return value >= 10;
+				}
+			},
+			computed: {
+				// showSelect(){
+				// 	this.isShowSecondSelect = true;
+				// }
+			}
+		});
+	</script>
 </body>
 </html>

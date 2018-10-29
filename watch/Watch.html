@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+    <div class="sample">
+		<input type="text" v-model="promo">
+		<hr>
+		<div v-show="showText"> Your sale is {{ sale }}</div>
+    </div>
+	<script src="vue.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		function getSale(code, callback){
+			let codes = {
+				newYear: 10,
+				some: 20
+			};
+
+			let sale = (codes[code] !== undefined) ? codes[code] :  0;
+
+			setTimeout(() => {
+				callback(sale);
+			},500);
+			return sale ;
+		};
+
+		let sample = new Vue({
+			el: '.sample',
+			data: {
+				promo: '',
+				showText: true,
+				sale:0
+			},
+			computed:{
+
+			},
+			watch: {
+				promo(){
+					getSale(this.promo, (sale) => {
+						this.sale = sale;
+					});
+				}
+			}
+		});
+	</script>
+</body>
+</html>
