@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div class="filter">
+		<h2>Введите критерий сортировки</h2>
+		<input type="text" v-model="filterField">
+		<!-- <input type="text" v-model="input">
+		<div id="result"> {{ input | marker }}</div> -->
+		<!-- <input type="text" v-model="some"> -->
+		<ul>
+			<li v-for="ar in array">
+				{{ ar | marker }}<!-- {{ ar | findLessNumber(ar) }} -->
+			</li>
+		</ul>
+		<br/><br/>
+		{{ filterField |  capitalize }}
+		<hr/>
+	</div>
+	<script src="vue.js" type="text/javascript"></script>
+	<script>
+		Vue.filter('capitalize', function (value) {
+		  if (!value) return ''
+		  value = value.toString()
+		  return value.charAt(0).toUpperCase() + value.slice(1)
+		})
+
+		// Vue.filter('findLessNumber', function (value) {
+		//   if (!value) return ''
+		//   return value < 5;
+		// })
+
+		Vue.filter('marker',function(value) {
+			//return value.replace('единорог','&#129412;')
+			return value.filter(value < 10);
+		});
+
+		let vueFulter = new Vue({
+			el: '.filter',
+			data: {
+				someObj: [{
+					 Name:'Vasa',Age:22,Gender:'M'},
+					{Name:'Petya',Age:44,Gender:'M'},
+					{Name:'Kety',Age:28,Gender:'W'
+				}],
+				array:[1,2,3,4,5,6,7,8,9],
+				filterField : '',
+				input: ''
+			},
+			computed:{
+				some(){
+					for(let i;this.array.length <= i; i++)
+						{
+						if(this.array[i]<5)
+						return this.array + '+1';
+						}
+				}
+				
+			}
+			// filters: {
+			//   findLessNumber(value) {
+			//  //  	for(let i = 0; this.array.length <= i; i++){
+			// 	// 	  	if(this.array < 5) {
+			// 	// 	  		return 1;
+			// 	// 	  	}
+			// 	// }
+			//   }
+			// }
+		});
+	</script>
+</body>
+</html>
