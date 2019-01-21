@@ -5,25 +5,89 @@
 	<title>Document</title>
 </head>
 <body>
+	<style type="text/css">
+		.hide {
+
+		}
+
+	</style>
+
+	<div id="CopyPasteDate">
 	Copy Date:
 	<hr>
-  <input type="date" name="date1" value="" class="revert_date_to_text" v-model="date1">
-  <br><br>
-  Paste Date:
-  <input type="date" name="date2">
-  <br><br>
+	<br><br>
+	<input type="date" name="date1" value="" class="revert_date_to_text" v-model="date1" @keydown.ctrl.67="copyDate" @keydown.ctrl.86="pasteDate">
+	<br><br>
+	<input type="date" name="date2" value="" class="revert_date_to_text" v-model="date2" @keydown.ctrl.67="copyDate" @keydown.ctrl.86="pasteDate">
+	<br><br>
+	Paste Date:<br><br>
+	<input type="text" name="Paste1" id="CopyField">
+	<br><br>
+	<input type="date" name="Paste1" class="revert_date_to_text" v-model="date3" @keydown.ctrl.67="copyDate" @keydown.ctrl.86="pasteDate">
+	<br><br>
 
-  <script src="vue.js" type="text/javascript"></script>
-  <script type="text/javascript">
-  	var CopyPasteDate = new Vue({
-  		el: '#CopyPasteDate',
-  		data: {
-  			   date1: '2017-02-28'
-  		      ,date2: '2018-08-16'
-  		      ,date3: '2019-12-08'
-  		  },
-  		computed: {};
-  	});
-  </script>
+	</div>
+
+	<script src="vue.js" type="text/javascript"></script>
+	<script type="text/javascript">
+
+		var CopyPasteDate = new Vue({
+			el: '#CopyPasteDate',
+			data: {
+						 date1: '2017-02-28'
+						,date2: '2018-08-16'
+						,date3: ''
+				},
+				methods: {
+					copyDate(event){
+						var newObject = document.createElement("input"),
+								currTarget = event.target,
+								copyField = document.querySelector('#CopyField');
+
+								currValue = currTarget.value;
+								//cloneObj = event.target.cloneNode(false);
+
+						    //console.log(event.target)
+						    
+								newObject.value = currTarget.value;
+								copyField.value = currValue;
+
+								newObject.className = "CopyPasteData";
+								//newObject.name = currTarget.name;
+								//newObject.className = currTarget.className;
+								//cloneObj.type = 'text';
+
+								//console.log(cloneObj)
+
+						//if(event.keyCode == 17){
+								//currTarget.parentNode.replaceChild(newObject, currTarget) // appendChild(newObject);
+								//currTarget.parentNode.replaceChild(cloneObj, currTarget)
+								//cloneObj.select();
+								
+						//}
+
+						//currTarget.parentNode.insertBefore(newObject, currTarget); // appendChild(newObject);
+						// newObject.select();
+					},
+					pasteDate(event){
+						var CopyField = document.querySelector('#CopyField');
+
+						if(CopyField != NaN && CopyField != undefined){
+							event.target.value = CopyField.value;
+						}
+
+						// del.remove();
+						// this.show = true;
+						// var newObjectDate = document.createElement("input"),
+						// 		currTarget = event.target;
+
+						// 		newObjectDate.value = currTarget.value;
+						// 		newObjectDate.type = 'date';
+						// 		currTarget.parentNode.replaceChild(newObjectDate, currTarget) // appendChild(newObject);
+						
+					}
+				}
+		});
+	</script>
 </body>
 </html>
