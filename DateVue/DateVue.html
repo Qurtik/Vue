@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="vue.js" type="text/javascript"></script>
+</head>
+<body>
+	<style type="text/css">
+		input {
+    word-spacing: 20px;
+         }
+	</style>
+	
+
+	<div class="MyDate">
+		<!-- <input type="date" class="date" @input="dateFunc" value="" v-model="name"> -->
+		<input type="date" class="date" value="2019-12-12">
+		{{ name }}
+	</div>
+	
+
+	<script type="text/javascript">
+		var MyDate = new Vue ({
+			el: '.MyDate',
+		    data: {name: "2019.12.12"},
+		    computed: {
+		    	dateFunc(){
+		    		if(this.name.length == 2 || this.name.length == 5)
+		    		{
+		    			//this.name = this.name+'.';
+		    		}
+		    	}
+		    }
+		});
+	</script>
+</body>
+</html>

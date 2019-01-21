@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link href="bootstrap/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- 	<style>
+  table.tblResultsR{
+  	border-color:black;
+	border-width:1px;
+	border-style:solid;
+	border-collapse:collapse;
+	color:black;
+	font-size: 9pt; 
+	text-align: center;
+  }
+  table.tblResultsR th,table.tblResultsR td{
+	padding:3px;
+	border-color:black;
+	border-width:1px;
+	border-style:solid;
+	border-collapse:collapse;
+	color:black;
+  }
+  .fcol{
+	width:50px;
+  }
+  .scol{
+	width:40px;
+  }
+  .tcol{
+	width:550px;
+  }
+  .focol{
+	width:200px;
+  }
+  .ficol{
+	width:400px;
+  }
+</style> -->
+	<table class = "tblResultsR table-striped">
+   <tbody>
+      <tr style="height:30px;">
+	  <th class = "tcol" align="center">Office Name</th>
+	  <th class = "scol" align="center">AUG-2018</th><th class = "scol" align="center">DEC-2017</th><th class = "scol" align="center">FEB-2018</th><th class = "scol" align="center">JAN-2019</th><th class = "scol" align="center">NOV-2018</th><th class = "scol" align="center">OCT-2018</th><th class = "scol" align="center">SEP-2018</th>
+      <th class = "scol" align="center">SUM</th>
+	  </tr><tr>
+         <td align="center">
+            Азов
+         </td>
+         <td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">18</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td>
+      </tr><tr>
+         <td align="center">
+            Архангельск
+         </td>
+         <td valign="middle" align="center">3243</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">1744</td><td valign="middle" align="center">3266</td><td valign="middle" align="center">902</td><td valign="middle" align="center">1541</td>
+      </tr><tr>
+         <td align="center">
+            Высоцк
+         </td>
+         <td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">1091</td><td valign="middle" align="center">213</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td>
+      </tr><tr>
+         <td align="center">
+            Мурманск
+         </td>
+         <td valign="middle" align="center">3431</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">2100</td><td valign="middle" align="center">2372</td><td valign="middle" align="center">2805</td>
+      </tr><tr>
+         <td align="center">
+            НЕСТЕ
+         </td>
+         <td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">607</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td>
+      </tr><tr>
+         <td align="center">
+            Новороссийск
+         </td>
+         <td valign="middle" align="center">4451</td><td valign="middle" align="center">0</td><td valign="middle" align="center">913</td><td valign="middle" align="center">2746</td><td valign="middle" align="center">7720</td><td valign="middle" align="center">4111</td><td valign="middle" align="center">2878</td>
+      </tr><tr>
+         <td align="center">
+            Порт Кавказ
+         </td>
+         <td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">226</td><td valign="middle" align="center">523</td><td valign="middle" align="center">626</td><td valign="middle" align="center">0</td>
+      </tr><tr>
+         <td align="center">
+            Санкт-Петербург
+         </td>
+         <td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">397</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td>
+      </tr><tr>
+         <td align="center">
+            Тамань
+         </td>
+         <td valign="middle" align="center">3523</td><td valign="middle" align="center">2349</td><td valign="middle" align="center">168</td><td valign="middle" align="center">941</td><td valign="middle" align="center">1625</td><td valign="middle" align="center">1976</td><td valign="middle" align="center">3201</td>
+      </tr><tr>
+         <td align="center">
+            Усть-Луга
+         </td>
+         <td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">49</td><td valign="middle" align="center">6</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td>
+      </tr><tr>
+         <td align="center">
+            Темрюк
+         </td>
+         <td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td><td valign="middle" align="center">0</td>
+      </tr>
+   </tbody>
+</table>
+</body>
+</html>

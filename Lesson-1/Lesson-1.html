@@ -27,7 +27,10 @@
 	<input type="text" name="" v-model="name">
 	<p>{{ name }}</p>
 	<ul>
-		<li v-for="number in numbers">
+		<li v-for="(number,index) in numbers"
+			v-on:mouseenter="onMouseEnter($event,index)"
+			v-on:mouseleave="$event.target.style.color = 'black' "
+		>
 			{{ number }}
 		</li>
 	</ul>
@@ -71,6 +74,10 @@
 				},
 				AddRows(){
 					
+				},
+				onMouseEnter(e, index){
+					console.log(index);
+					e.target.style.color = 'red';
 				}
 			}
 		});

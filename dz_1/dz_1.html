@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script src="vue.js" type="text/javascript"></script>
+
+<div id="sample">
+	email<br/>
+	<input type="text" name="email" v-model="email"><br/><br/>
+	FirstName<br/>
+	<input type="text" name="FirstName" v-model="firstName"><br/><br/>
+	LastName<br/>
+	<input type="text" name="LastName" v-model="lastName"><br/><br/>
+	Phone<br/>
+	<input type="text" name="Phone" v-model="phone"><br/><br/>
+	Guests
+	<input type="button" value="+" v-on:click="addGuest"><br/><br/>
+	<div v-for="(guest,index,key) in guests"
+		
+		 v-on:mouseenter="mouseEnter($event, index)"
+		 v-on:mouseleave="mouseLeave($event, index)"
+		 v-on:click="deleteGuest($event, index)"
+	>
+	Guest {{ index + 1 }} / {{ key }}<br/>
+	<input type="text" name="" v-model="guests[index]">
+	</div>
+</div>
+
+
+	<script>
+		let vue = new Vue({
+			el: "#sample",
+			data:{
+				firstName:'',
+				lastName:'',
+				phone:'',
+				email:'',
+				guests:[],
+			},
+			methods: {
+				addGuest(){
+					this.guests.push('');
+				},
+				deleteGuest(e,index){
+					console.log(index);
+					this.guests.splice(index,1);
+					//delete this.guests[index];
+				},
+				mouseEnter(e,index){
+					e.target.style.color = 'yellow';
+				},
+				mouseLeave(e,index){
+					e.target.style.color = 'black';
+				}
+			},
+			computed: {
+
+			}
+		});
+	</script>
+</body>
+</html>
