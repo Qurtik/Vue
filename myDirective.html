@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="css/styles.css">
+	<script src="vue.js" type="text/javascript"></script>
+	<style type="text/css">
+		.my-info{
+			font-style: italic;
+		}
+
+		.my-warning{
+			font-size: 20px;
+		}
+
+		.table-some{
+			color:#fff;
+			background:#000;
+		}
+
+	</style>
+</head>
+<body>
+<div class=wrapper>
+	<div class="sample">
+		<h2> {{ clicks }} </h2>
+		<hr>
+		<button class="btn btn-success"
+		        v-ondelay:click.prevent.trim.200="onClick">Send
+	</div>
+</div>
+
+<script>
+
+	Vue.directive('ondelay',{
+		bind(el, options){//Хук bind
+			let timer;
+			let timeout = 0;
+
+			for(let name in options.modifiers){
+					if(!isNaN(+name)){
+						timeout = parseInt(name);
+					}
+				}
+
+			console.log(timeout);
+			
+
+
+			let callback = (e) => {
+				if(timer !== undefined){
+					clearInterval(timer);
+				}
+
+				if(options.modifiers.prevent){
+				e.preventDefault();
+			}
+
+				setTimeout(() => {
+					options.value.call(this, e);
+				}, timeout)
+				
+			};
+
+			el.addEventListener(options.arg, callback)
+			console.log(options);
+		}
+	});
+
+let sample = new Vue({
+	el: '.sample',
+	data:{
+		clicks: 0
+	},
+	methods:{
+		onClick(){
+			this.clicks++;
+		}
+	},
+	computed:{
+
+	}
+});
+</script>
+</body>
+</html>
