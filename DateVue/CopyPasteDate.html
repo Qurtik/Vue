@@ -16,9 +16,9 @@
 	Copy Date:
 	<hr>
 	<br><br>
-	<input type="date" v-model="date1" @keydown.ctrl.67="copyDate($event.target.value)" @keydown.ctrl.86="pasteDate($event,$data)">
+	<input type="text" v-model="date1" @keydown.ctrl.67="copyDate($event.target.value)" @keydown.ctrl.86="pasteDate($event)">
 	<br><br>
-	<input type="date" v-model="date2" @keydown.ctrl.67="copyDate($event.target.value)" @keydown.ctrl.86="pasteDate($event.target.value,$data)">
+	<input type="text" v-model="date2" @keydown.ctrl.67="copyDate($event.target.value)" @keydown.ctrl.86="pasteDate($event)">
 	<br><br>
 	Paste Date:<br><br>
 	<input type="text" v-model="copyDateValue">
@@ -71,12 +71,13 @@
 						//currTarget.parentNode.insertBefore(newObject, currTarget); // appendChild(newObject);
 						// newObject.select();
 					},
-					pasteDate(target, model){
-						console.log(target);
-						console.log(model);
+					pasteDate(event){
+						let vm = this;
+						//console.log(event);
+						console.log(this);
 						console.log(this.$data);
 						//console.log(this.$data.value);
-						target = this.copyDateValue;
+						event = this.copyDateValue;
 						//this.$data.target = this.copyDateValue;
 
 
