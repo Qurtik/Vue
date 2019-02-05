@@ -16,14 +16,14 @@
 	Copy Date:
 	<hr>
 	<br><br>
-	<input type="date" name="date1" value="" class="revert_date_to_text" v-model="date1" @keydown.ctrl.67="copyDate" @keydown.ctrl.86="pasteDate">
+	<input type="text" v-model="date1" @keydown.ctrl.67="copyDate($event.target.value)" @keydown.ctrl.86="pasteDate($event)">
 	<br><br>
-	<input type="date" name="date2" value="" class="revert_date_to_text" v-model="date2" @keydown.ctrl.67="copyDate" @keydown.ctrl.86="pasteDate">
+	<input type="text" v-model="date2" @keydown.ctrl.67="copyDate($event.target.value)" @keydown.ctrl.86="pasteDate($event)">
 	<br><br>
 	Paste Date:<br><br>
-	<input type="text" name="Paste1" id="CopyField">
+	<input type="text" v-model="copyDateValue">
 	<br><br>
-	<input type="date" name="Paste1" class="revert_date_to_text" v-model="date3" @keydown.ctrl.67="copyDate" @keydown.ctrl.86="pasteDate">
+	<input type="date" v-model="date3" @keydown.ctrl.67="copyDate($event.target.value)" @keydown.ctrl.86="pasteDate($event.target)">
 	<br><br>
 
 	</div>
@@ -37,22 +37,24 @@
 						 date1: '2017-02-28'
 						,date2: '2018-08-16'
 						,date3: ''
+						,copyDateValue: ''
 				},
 				methods: {
-					copyDate(event){
-						var newObject = document.createElement("input"),
-								currTarget = event.target,
-								copyField = document.querySelector('#CopyField');
+					copyDate(value){
+						//console.log(value);
+						this.copyDateValue = value;
 
-								currValue = currTarget.value;
-								//cloneObj = event.target.cloneNode(false);
 
-						    //console.log(event.target)
-						    
-								newObject.value = currTarget.value;
-								copyField.value = currValue;
 
-								newObject.className = "CopyPasteData";
+
+						//var currTarget = event.target,
+								//copyField = document.querySelector('#CopyField');
+
+								//currValue = currTarget.value;
+
+								//copyField.value = currValue;
+
+
 								//newObject.name = currTarget.name;
 								//newObject.className = currTarget.className;
 								//cloneObj.type = 'text';
@@ -70,11 +72,21 @@
 						// newObject.select();
 					},
 					pasteDate(event){
-						var CopyField = document.querySelector('#CopyField');
+						let vm = this;
+						//console.log(event);
+						console.log(this);
+						console.log(this.$data);
+						//console.log(this.$data.value);
+						event = this.copyDateValue;
+						//this.$data.target = this.copyDateValue;
 
-						if(CopyField != NaN && CopyField != undefined){
-							event.target.value = CopyField.value;
-						}
+
+
+						//var CopyField = document.querySelector('#CopyField');
+
+						//if(CopyField != NaN && CopyField != undefined){
+						//	event.target.value = CopyField.value;
+						//};
 
 						// del.remove();
 						// this.show = true;

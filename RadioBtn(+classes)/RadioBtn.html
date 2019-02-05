@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="css/styles.css">
+	<script src="vue.js" type="text/javascript"></script>
+	<style type="text/css">
+		.my-info{
+			font-style: italic;
+		}
+
+		.my-warning{
+			font-size: 20px;
+		}
+
+		.table-some{
+			color:#fff;
+			background:#000;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="radioVue">
+		<div class="wrapper">
+		<div class="sample">
+			<!-- <div class="alert" :class="'alert-' + divClass">Some text</div> -->
+			<div class="alert" :class="divClassName">Some text</div>
+			<div class="form-check">
+				<label class="form-check-label">
+					<!-- Name можно не указывать - благодаря v-model все происходит само -->
+					<input type="radio" class="form-check-input" value="info" v-model="divClass">Info 
+				</label>
+			</div>
+
+			<div class="form-check">
+				<label class="form-check-label">
+					<!-- Name можно не указывать - благодаря v-model все происходит само -->
+					<input type="radio" class="form-check-input" value="warning" v-model="divClass">Warning
+				</label>
+			</div>
+			<hr>
+			<div class="form-check"  v-for="(value, name) in flags">
+				<label class="form-check-label">
+					<input type="checkbox" class="form-check-input" v-model="flags[name]">
+					{{ name }} - {{ value }}
+				</label>
+			</div>
+			<hr>
+			<table class="table" :class="flags">
+				<tr>
+					<td>Title</td>
+					<td>Some</td>
+					<td>hz</td>
+				</tr>
+				<tr>
+					<td>Title</td>
+					<td>Some</td>
+					<td>hz</td>
+				</tr>
+				<tr>
+					<td>Title</td>
+					<td>Some</td>
+					<td>hz</td>
+				</tr>
+			</table>
+
+		</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+
+		/*
+		В :class можно указывать:
+
+		:class="string"
+		:class="array"
+		:class="obj"
+		:class="[str,obj]"
+		:class="['alert', 'some', {a: true, b: false}]"
+
+		*/
+		
+		let radioVue = new Vue({
+			el: '#radioVue',
+			data: {
+				divClass: 'warning',
+				flags: {
+					'table-bordered' : true,
+					'table-hover' : false,
+					'table-some' : false
+				}
+			},
+			computed:{
+				divClassName(){
+					// return 'alert-' + this.divClass; - так же работает, но только если нужно будет передать один класс
+					return [
+						'alert-' + this.divClass,
+						'my-' + this.divClass
+					];
+				}
+			}
+		});
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="css/styles.css">
+	<script src="vue.js" type="text/javascript"></script>
+</head>
+<body>
+<div class=wrapper>
+	<div class="sample">
+		<app-some v-for="(elem,index) in values" :key="index"
+				  :min="elem.min"
+				  :max="elem.max"
+				  @plusplus="onPlusPlus(index)"
+				  > 
+		</app-some>
+	</div>
+</div>
+
+<script>
+
+	//Локальное создание компонента
+	Vue.component('app-some', {
+		props:['min','max'],
+		template: `
+		<div>
+			<h2>{{ number }}</h2>
+			<button class="btn btn-primary" @click="onClick">+</button>
+			<hr>
+		</div>
+		`,
+		data(){ // data объявляется по другому - без {} скобок
+			return {
+				//number: Math.floor(Math.random() * (this.max - this.min)) + this.min // data генерируется 1 раз. Только при создании компонента
+			}
+		},
+		methods:{
+			onClick(e){
+				this.$emit('plusplus'); // $emit - генерирует событие отправляющиеся родительскому элементу. Используется для запуска родительского события. Используем в виде @plusplus в компоненте в виде события. onPlusPlus - это событие родителя.
+				// this.min += 5; // Так делать нельзя - выдаст ошибку. Нужно вызвать событие у родителя при помощи "$emit" и изменить данные на стороне родителя
+				// this.max += 5; 
+			}
+		},
+		computed:{
+			number(){
+				return Math.floor(Math.random() * (this.max - this.min)) + this.min
+			}
+		}
+	});
+
+let sample = new Vue({
+	el: '.sample',
+	data:{
+		values: [
+			{
+				min: 1,
+				max: 5
+			},
+			{
+				min: 5,
+				max: 10
+			},
+			{
+				min: 10,
+				max: 15
+			}
+		]
+	},
+	methods: {
+		onPlusPlus(index){
+			console.log(index);
+			this.values[index].min += 5;
+			this.values[index].max += 5;
+
+		}
+	}
+});
+</script>
+</body>
+</html>
