@@ -277,7 +277,7 @@ let sample = new Vue({
 
 <script>
 
-//Локальное создание компонента
+//Глобальное создание компонента
 	Vue.component('app-some', {
 		props:['min','max'],
 		template: `
@@ -330,6 +330,187 @@ let sample = new Vue({
 			this.values[index].min += 5;
 			this.values[index].max += 5;
 
+		}
+	}
+});
+</script>
+/* ************************************************************************************************** */
+
+
+/* ************************************************************************************************** */
+// props
+
+<div class=wrapper>
+	<div class="sample">
+		<app-some :a="1" :b="1" :c="1"> 
+			{{ a }}
+			{{ b }}
+			{{ c }}
+		</app-some>
+	</div>
+</div>
+
+<script>
+
+	Vue.component('app-some', {
+		props:{
+			//a: null // Любой тип данных
+			a: Number
+			b:[Number,String] //  Строка или число
+			c: {
+				type:Number,
+				required: true, // обязательная передача данных в компонент
+				default: 5 // Значение по умолчанию, если н6е передали параметр
+			},
+			d: {
+				type: Object,
+				default(){
+					return {
+						a : 1 // Значение по умолчанию в объекте
+					}
+				}
+			},
+			e: {
+				validator(val){
+					return val >= 1 && val <= 10; // Свой валидатор
+				}
+			}
+		},
+	});
+
+let sample = new Vue({
+	el: '.sample',
+	data:{
+
+	},
+	methods:{
+	}
+});
+</script>
+/* ************************************************************************************************** */
+
+
+
+/* ************************************************************************************************** */
+// component
+
+<div class=wrapper>
+	<div class="sample container">
+		<button class="btn btn-primary" @click="ul = !ul"> Toggle</button>
+		<hr/>
+		<app-ul :items="list" v-if="ul"></app-ul>
+		<app-ol :items="list" v-if="ul"></app-ol>
+		<component :is="listType" :items="list"></component>
+	</div>
+</div>
+
+<script>
+
+	Vue.component('appUl', {
+		props:{
+			items: null
+		},
+		template: `
+			<ul>
+				<li v-for="item in items">
+					{{ item }}
+				</li>
+			</ul>
+		`
+	});
+
+	Vue.component('appOl', {
+		props:{
+			items: null
+		},
+		template: `
+			<ol>
+				<li v-for="item in items">
+					{{ item }}
+				</li>
+			</ol>
+		`
+	});
+
+let sample = new Vue({
+	el: '.sample',
+	data: {
+		list: [
+			'Some',
+			'Items',
+			'For',
+			'List'
+		],
+		ul:true
+	},
+	computed: {
+		listType(){
+			return this.ul ? 'appUl' : 'appOl';
+		}
+	}
+});
+</script>
+/* ************************************************************************************************** */
+
+/* ************************************************************************************************** */
+// keep-alive - предотвращает пересоздание объектов
+
+<div class=wrapper>
+	<div class="sample container">
+		<button class="btn btn-primary" @click="ul = !ul"> Toggle</button>
+		<hr/>
+		<keep-alive>
+			<app-ul :items="list" v-if="ul"></app-ul>
+			<app-ol :items="list" v-if="ul"></app-ol>
+		</keep-alive>
+		<keep-alive>
+		<component :is="listType" :items="list"></component>
+		</keep-alive>
+	</div>
+</div>
+
+<script>
+
+	Vue.component('appUl', {
+		props:{
+			items: null
+		},
+		template: `
+			<ul>
+				<li v-for="item in items">
+					{{ item }}
+				</li>
+			</ul>
+		`
+	});
+
+	Vue.component('appOl', {
+		props:{
+			items: null
+		},
+		template: `
+			<ol>
+				<li v-for="item in items">
+					{{ item }}
+				</li>
+			</ol>
+		`
+	});
+
+let sample = new Vue({
+	el: '.sample',
+	data: {
+		list: [
+			'Some',
+			'Items',
+			'For',
+			'List'
+		],
+		ul:true
+	},
+	computed: {
+		listType(){
+			return this.ul ? 'appUl' : 'appOl';
 		}
 	}
 });
