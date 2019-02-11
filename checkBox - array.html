@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css">
+	<!-- <link rel="stylesheet" href="css/styles.css"> -->
+	<script src="vue.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="app">
+  <app-checkbox
+    v-for="(category,index,key) in categories"
+    :key="key"
+    name=""
+    :value="category.value"
+    v-model="checked">
+    {{ category.label }}
+  </app-checkbox>
+  <pre>{{ checked }}</pre>
+</div>
+
+
+<script>
+	Vue.component('app-checkbox', {
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: ['name', 'value', 'checked'],
+  template: `
+<label>
+  <input 
+    type="checkbox" 
+    :name="name" 
+    :value="value" 
+    v-model="modeler" 
+    @change="$emit('change', checkedInner)"
+  >
+  <slot></slot>
+</label>`,
+  data: () => ({
+    checkedInner: null,
+  }),
+  computed: {
+    modeler: {
+      get() {
+        return this.checked;
+      },
+      set(val) {
+        this.checkedInner = val;
+        console.log(val);
+      },
+    },
+  },
+});
+
+new Vue({
+	el: '#app',
+  data: {
+  	categories: [
+      { label: 'Категория 1', value: ['test1','test12','test1'] },
+      { label: 'Категория 2', value: ['test2'] },
+      { label: 'Категория 3', value: ['test3'] },
+    ],
+    checked: [['test2']],
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css">
+	<!-- <link rel="stylesheet" href="css/styles.css"> -->
+	<script src="vue.js" type="text/javascript"></script>
+</head>
+<body>
+	<style>
+		.table{
+			width: 50%;
+			margin: auto;
+		}
+		.table-CityText{
+			width: 25%;
+			margin: 10px;
+			background-color:white;
+		}
+
+
+	</style>
+
+<div id="AuditTest">
+	<table class="table table-bordered table-CityText"> 
+			<thead>
+				<tr>
+					<th> 
+						Questions
+					</th> 
+					<th> 
+						Answers
+					</th> 
+				</tr>
+			</thead>
+			<tbody> 
+				<tr>
+					<tr is="myapp-tr" v-for="(val,index) in Test"
+						    :questiontext="val.questionText"
+						    :index_q="index"
+						    :answers="val.answerCheckBox"
+							:type="val.type"
+						    :name="val.name"
+						    :idquestion="val.IdQuestion"
+						    v-model="checked"
+						>
+					</tr>
+					<!-- <template> -->
+				</tr>
+			</tbody>
+	</table>
+	{{ checked }}
+</div>
+
+<script>
+	Vue.component('myapp-tr', {
+		model: {
+		    prop: 'checked',
+		    event: 'change'
+		},
+		props:['questiontext','type','name','answers','index_q','checked','idquestion'],
+		template: `
+			<tr>
+				<td class = "tcol" align="center">
+					{{ questiontext }}
+				</td>
+				<td class = "tcol" align="center">
+					<div v-for="(val,index,key) in answers">
+					<input :type="type" 
+					       :name="name" 
+					       :key="key"
+					       @change="$emit('change', checkedInner)"
+					       :value="val" 
+					       v-model="modeler">
+						{{ val.val }}
+					</div>
+				</td>
+			</tr>
+		`,
+		data: () => ({
+			checkedInner: null,
+			testValue: null
+		}),
+		methods:{
+			check(e, index_a, index_q){
+				console.log(e)
+				console.log(index_a)
+				console.log(index_q)
+			}
+		},
+		computed:{
+			modeler: {
+		      get() {
+		      		return this.checked;
+		      },
+		      set(value) {
+			        this.checkedInner = value;
+			        console.log(value);
+
+		      },
+		    },
+		}
+	});
+
+let sample = new Vue({
+	el: '#AuditTest',
+	data: {
+			Test: [
+			 {questionText: 'Question_1',type:'checkbox',name: 'q1',answerCheckBox: [{IdQuestion: '1', val:'q1_var1'},{IdQuestion: '1',val:'q1_var2'},{IdQuestion: '1',val:'q1_var3'},{IdQuestion: '1',val:'q1_var4'}]},//'var1'},//['var1','var2','var3','var4']},
+			 {questionText: 'Question_2',type:'checkbox',name: 'q2',answerCheckBox: [{IdQuestion: '2',val:'q2_var1'},{IdQuestion: '2',val:'q1_var1'}]},//['var2','var1','var1']},
+			 {questionText: 'Question_3',type:'checkbox',name: 'q3',answerCheckBox: [{IdQuestion: '3',val:'q3_var1'},{IdQuestion: '3',val:'q3_var2'}]},
+			 {questionText: 'Question_4',type:'checkbox',name: 'q4',answerCheckBox: [{IdQuestion: '4',val:'q4_var1'}]},
+			 {questionText: 'Question_5',type:'radio',name: 'q5',answerCheckBox: [{IdQuestion: '5',val:'q5_var1'},{IdQuestion: '5',val:'q5_var2'}]}
+			],
+			checked: []
+	},
+	computed:{
+		FromCheckboxToRadio(){
+			return this.checked.filter( checked => {
+						return checked.Code.toLowerCase().indexOf(this.searchHero.toLowerCase()) > -1
+					} )
+		}
+	}
+});
+</script>
+</body>
+</html>
