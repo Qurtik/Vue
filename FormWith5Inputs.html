@@ -109,8 +109,8 @@
 					</thead>
 					<tbody> 
 						<tr>
-							<th v-for="City in citiesOptions"> 
-								{{ City.Name }}
+							<th v-for="value in inputNames"> 
+								{{ value.Value }}
 							</th> 
 						</tr>
 					</tbody>
@@ -234,7 +234,7 @@ let sample = new Vue({
 		cities: '',
 		citiesOptions: [
 		               {Name:"Moscow", Country:"Russia"},
-		               {Name:"Lubertsy-7", Country:"Russia"},
+		               {Name:"Lubertsy", Country:"Russia"},
 		               {Name:"Pskov", Country:"Russia"},
 		               {Name:"Ryazan", Country:"Russia"},
 		               {Name:"Tver", Country:"Russia"},
