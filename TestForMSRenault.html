@@ -42,6 +42,7 @@
 						    :answers="val.answerCheckBox"
 							:type="val.type"
 						    :name="val.name"
+						    :key_q="index"
 						    :idquestion="val.IdQuestion"
 						    v-model="checked"
 						>
@@ -59,7 +60,7 @@
 		    prop: 'checked',
 		    event: 'change'
 		},
-		props:['questiontext','type','name','answers','index_q','checked','idquestion'],
+		props:['questiontext','type','name','answers','index_q','checked','idquestion','key_q'],
 		template: `
 			<tr>
 				<td class = "tcol" align="center">
@@ -69,7 +70,7 @@
 					<div v-for="(val,index,key) in answers">
 					<input :type="type" 
 					       :name="name" 
-					       :key="key"
+					       :key="key_q"
 					       @change="$emit('change', checkedInner)"
 					       :value="val" 
 					       v-model="modeler">
@@ -91,10 +92,10 @@
 		},
 		computed:{
 			modeler: {
-		      get() {
+		      get() { // Дейсвтия при получении значения
 		      		return this.checked;
 		      },
-		      set(value) {
+		      set(value) { // Дейсвтия при установлении значения
 			        this.checkedInner = value;
 			        console.log(value);
 
