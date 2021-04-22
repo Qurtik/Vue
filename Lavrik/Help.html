@@ -103,7 +103,6 @@ let sample = new Vue({
 				this.sale = sale;
 			})
 		}
-		
 	}
 });
 
@@ -515,4 +514,218 @@ let sample = new Vue({
 	}
 });
 </script>
+/* ************************************************************************************************** */
+// reduce - для массивов
+
+<script type="text/javascript">
+let result = BatchVal.reduce(function(previousValue, currentValue){
+	//(previousValue, currentValue, index, array, initialValue) - порядок
+	//previousValue - Последний результат вызова функции, он же «промежуточный результат».
+	//currentValue - Текущий обрабатываемый элемент массива, элементы перебираются по очереди слева-направо.
+	//index - Индекс текущего обрабатываемого элемента массива.(Необязательный параметр)
+	//array - Массив, для которого была вызвана функция reduce.(Необязательный параметр)
+	//initialValue - Объект, используемый в качестве первого аргумента при первом вызове функции callback.(Необязательный параметр)
+	if(currentValue.BatchNo != previousValue.BatchNo){
+		console.log(currentValue.BatchNo);
+		newArray.push(currentValue.BatchNo);
+	}
+	console.log(newArray);
+	return currentValue.BatchNo;
+});
+</script>
+
+/* ************************************************************************************************** */
+// Фукнция получения параметров URL GET
+
+<script type="text/javascript">
+let gets = (function() {
+				let params = window.location.search;
+				let res = new Object();
+				params = params.substring(1).split("&");
+
+				for (let i = 0; i < params.length; i++) {
+				let c = params[i].split("=");
+					res[c[0]] = c[1];
+				}
+				return res;
+			})();
+		
+</script>
+
+
+// Более новая версия
+
+<script type="text/javascript">
+let uri = window.location.search.substring(1); 
+let params = new URLSearchParams(uri);
+this.unid = params.get("unid");	
+</script>
+
+
+
+/* ************************************************************************************************** */
+// class
+// стрелочная функция
+// параметр по умолчанию
+
+// Старый формат - функция
+
+<script type="text/javascript">
+function MyTimer(t){
+	// неявно let obj = {};
+	this.time = t; // присваивается obj.time = t; (this = obj)
+
+	this.tick = function(){
+		this.time--;
+	}
+
+	// Анонимная функция: function(){} - в ней тот контекст, с которым ее вызовут
+	// Стрелочная функция: () => {} контекст тот, в котором месте она написана
+
+	this.run = function(){
+		setInterval(() => {
+			this.tick()
+		}, 1000)
+	}
+	// неявно return obj;
+}
+
+// Наследование
+/*
+MyTimer.tick = function(){
+	this.time--;
+}
+MyTimer.run = function(){
+	setInterval(() => {
+		this.tick();
+	}, 1000)
+}
+*/
+
+</script>
+
+// Новый формат - class
+
+<script type="text/javascript">
+	
+class MyTimer{
+	// this. - всегда ссылается на поля этого класса
+	constructor(t = 100){ // параметр по умолчанию
+		// здесь присваиваются все поля
+		this.time = t;
+	}
+
+	tick(){
+		this.time--;
+	}
+
+	run = function(){
+		setInterval(() => {
+			this.tick()
+		}, 1000)
+	}
+}
+
+class ConsoleTimer extends MyTimer{
+	// ConsoleTimer унаследовал все у MyTimer (Полностью забрал все свойства родителя)
+	// Переопределение метода
+	tick(){
+		//this.time--; // повтор кода. Вместо этого пишем super.tick();
+		super.tick(); // вызор родительского метода
+		console.log(this.time);
+	}
+}
+
+// Вызов let t1 = new MyTimer(100);
+
+// indexOf
+arr.indexOf(searchElement[, fromIndex = 0])
+
+// splice
+rray.splice(start, deleteCount[, item1[, item2[, ...]]])
+
+/* ************************************************************************************************** */
+</script>
+
+/* ************************************************************************************************** */
+
+/* ************************************************************************************************** */
+// npm - NodeJS Package Manager
+
+(/d - смена диска)
+cd /d D:\...
+
+npm init - создает package.json в текущей папке (package.json - описывает модуль)
+
+// i - install
+// webpack - название модуля
+// --save-dev (разработка) - Модуль, который установили - переносится в package.json (Попадает в devDependencies в package.json)
+// --save (продакшен) - (Попадает в dependencies в package.json)
+npm i webpack --save-dev // Для установки webpack
+
+npm i jquery@1.12.2 - все, что после @ - это версия. (в данному случае будет скачана версия 1.12.2) 
+(По дефолту скачивает последнюю стабильную версию)
+
+webpack тянет файл из папки src, из файла index.js весь код. 
+Конвертирует его и переносит его в папку dist, в файл main.js
+
+// Установка dev-server для webpack
+npm i webpack-dev-server --save-dev
+
+// Установка path - для указания абсолютного пути в webpack.config.js
+npm i path --save-dev
+
+// Установка babel
+//babel-preset-env - "Перегонка" настроек из нового стандарта в старый
+npm i babel-core babel-loader babel-preset-env babel-preset-stage-3 --save-dev (Это старая версия)
+Если будет ошибка с babel-core, то ставить @babel/core
+Вместо babel-preset-env babel-preset-stage-3 НЕОБХОДИМО ставить: @babel/preset-env @babel/preset-react
+
+// Установка импорта css
+npm i style-loader css-loader --save-dev
+Далее добавляем в webpack.confing.js новое правило (rules):
+{
+	test: /\.css$/,
+	use: [ // установка нескольких loader'ов
+		'style-loader',
+		'css-loader'
+	]
+}
+// Установка extract-text-webpack-plugin@next
+// @next означает брать beta версию, которая поддерживается webpack 4
+
+
+/* .babelIrc - настройка babel */
+
+// Можно использовать в package.json вместо создания файла .babelrc
+// "babel": {
+//   "presets": [
+//       "@babel/env",
+//       "@babel/react"
+//   ]
+// }
+
+
+
+/* package.json */
+
+В строке scripts можем написать свои скрипты для запуска чего-либо. 
+Например:
+	"scripts": {
+	    "build" : "webpack -- mode production"
+	    "dev": "webpack-dev-server --mode development --open"
+	}
+
+1. При вызове npm run build будет выполняться webpack --mode production
+2. При вызове npm run dev будет выполняться webpack-dev-server --mode development --open. (--open - это автоматический запуск(что бы не нужно было самому открывать index.html))
+
+
+// Конфигурация сборщика dev-server
+// Файл webpack.config.js
+
+
+
+
+
+
 /* ************************************************************************************************** */

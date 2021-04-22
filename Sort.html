@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div class="sort">
+		<button @click="Sort">Sort</button>
+		<br/><br/>
+		<select v-model="SelectedCustomer" multiple>
+          <option v-for="value in Customer" :value="value.Id"> <!-- :selected="SelectedCustomer.indexOf(value.Id) > -1" -->
+			{{ value.Name }} 
+		  </option>
+		</select>
+		<hr/>
+		<ul>
+			<li v-for="value in Customer">
+				{{ value.Name }}
+			</li>
+		</ul>
+		<hr/>
+		<ul>
+			<li v-for="value in CustomerSort">
+				{{ value }}
+			</li>
+		</ul>
+	</div>
+	<script src="vue.js" type="text/javascript"></script>
+	<script>
+		let vueSort = new Vue({
+			el: '.sort',
+			data: {
+				Customer: [
+					{Name:"Coral Energy PTE LTD",Id:"86987F73-3386-4559-AF3E-1449C11C270B"},
+					{Name:"ООО Триумф",Id:"190E7509-EBB7-4CB7-815C-A05401B87AD6"},
+					{Name:"Glencore UK Ltd",Id:"4B0D0F33-C889-4BD9-A153-532A2396F1B4"},
+					{Name:"JSC ForteInvest",Id:"63A9CAE3-9F7B-4E70-A43A-77AEC1012C2F"},
+					{Name:"Elson SA",Id:"B7A5DB82-934D-4D4C-A2B0-3BF6AE032A97"}
+				],
+				myArray: ['Гена','Андрей','Петя','Вася'],
+				SelectedCustomer: ["4B0D0F33-C889-4BD9-A153-532A2396F1B4","86987F73-3386-4559-AF3E-1449C11C270B"],
+				newArraySort: [],
+				startSort: false
+			},
+			methods:{
+				Sort(){
+					this.startSort = true;
+					// let Cutomers = this.Customer,
+					// 	selectedCustomer = this.SelectedCustomer;
+
+					// for(let i = 0; i < Cutomers.length; i++){
+					// 	Cutomers[i].Sort = 0;
+					// 	for(let j = 0; j < selectedCustomer.length; j++){
+					// 		if(Cutomers[i].Id == selectedCustomer[j]){
+					// 			Cutomers[i].Sort = 1;
+					// 		}
+					// 	}
+					// }
+
+					// let sortArray = Cutomers.sort(function(a,b){
+					// 	let sortA = a.Sort - 1,
+					// 		sortB = b.Sort - 1
+					// 	return sortB - sortA;
+					// })
+					// this.newArraySort = sortArray
+				}
+			},
+			computed:{
+				CustomerSort(){
+					if(this.startSort == true){
+					let Cutomers = this.Customer,
+					selectedCustomer = this.SelectedCustomer;
+
+					for(let i = 0; i < Cutomers.length; i++){
+						Cutomers[i].Sort = 0;
+						for(let j = 0; j < selectedCustomer.length; j++){
+							if(Cutomers[i].Id == selectedCustomer[j]){
+								Cutomers[i].Sort = 1;
+							}
+						}
+					}
+
+					let sortArray = Cutomers.sort(function(a,b){
+						let sortA = a.Sort - 1,
+							sortB = b.Sort - 1
+						return sortB - sortA;
+					})
+
+					this.startSort = false;
+					return sortArray;
+					}
+				}
+			},
+			beforeMount(){
+				for(let i = 0; i < this.Customer.length; i++){
+						this.$set(this.Customer[i], "Sort", 0);
+						//this.Customer[i].Sort = 0;
+				}
+			}
+		});
+	</script>
+</body>
+</html>

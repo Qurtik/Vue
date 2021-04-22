@@ -1,0 +1,190 @@
+<script src="../Src/vue/vue.js"></script>
+<style>
+	.hidden{
+		display: none !important;
+	}
+	.disabled{
+		color : black !important;
+	}
+	
+	tr:hover td {
+		/*color: red !important;*/
+		background:#C5C5C5 url('/Reference/Resources/Images/GridView/grid-row-back-hover.gif') top left repeat-x !important;
+	}
+</style>
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script> -->
+<div id="dictionary">
+	<!-- {{ SaveFunction }} -->
+	<div>
+		Выберите словарь<br/><br/>
+		<select  name="dictionarySelect" :disabled="editMode" v-model="SelectedDBName" @change="getSelectedDictionary">
+			<option name="" v-for="value in DBNames">
+				{{ value }}
+			</option>
+		</select><br/>
+		<!-- <input type="button" @click="edit = !edit" :value="editBtnName"> -->
+		<input type="button" :disabled="editMode" @click="addNewRow" value="Добавить">
+	</div>
+	<div id="ctl00_Content_ctl00_NavigatorGridView" class="core-gridview">
+	<table class="GridViewStyle" cellspacing="0" cellpadding="0">
+		<thead>
+			<tr class="core-gridview-header">
+				<th v-for="value in headers" :class="isHidden(value)">
+					{{ value }}
+				</th>
+				<th collspan="2">
+					#
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="value in DictionaryData" class="core-gridview-alternate">
+				<template v-for="(val,key,index) in value"><!-- class="core-gridview-normal" -->
+					<td v-if="value.editElement === true " :class="isHidden(key)">
+						<input v-if="key != 'IsActive' " 
+								type="text" 
+								:size="val.length + 2" 
+								:name="key" 
+								:value="val" 
+								:disabled="isDisabled(key)" 
+								:class="isDisabled(key) == true ?  'disabled' : ''" 
+								@input="changeValue(index,$event.target.value,$event.target.name)"
+								>
+						<select v-else :name="key" :value="val">
+							<option value="0">0</option>
+							<option value="1">1</option>
+						</select>
+					</td>
+					<td v-else :class="isHidden(key)">
+						{{ val }}
+					</td>
+				</template>
+				<td>
+					<img v-if="editMode === false" src="Reference/Resources/Images/Toolbar/1_edit.png" title="Редактировать " name="edit" value="edit" @click="Edit($event.target.parentElement.parentNode.sectionRowIndex)"> 
+					<!-- <input v-if="editMode === false" type="button" name="edit" value="edit" @click="Edit($event.target.parentElement.parentNode.sectionRowIndex)"> -->
+					<img v-if="editMode === false" src="Reference/Resources/Images/Toolbar/1_delete.png" title="Удалить " name="delete" value="delete" @click="Delete($event.target.parentElement.parentNode.sectionRowIndex)"> 
+					<!-- <input v-if="editMode === false" type="button" name="delete" value="delete" @click="Delete($event.target.parentElement.parentNode.sectionRowIndex)"> -->
+					<img v-if="value.editElement === true" src="Reference/Resources/Images/Toolbar/1_save.png" title="Сохранить " name="save" value="save" @click="Save($event.target.parentElement.parentNode.sectionRowIndex)"> 
+					<!-- <input v-if="value.editElement === true" type="button" name="save" value="save" @click="Save($event.target.parentElement.parentNode.sectionRowIndex)"> -->
+				</td>
+			</tr>
+		</tbody>
+		<tfoot></tfoot>
+	</table>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var vform = new Vue({
+		el: "#dictionary",
+	    data: {
+	    	editMode: false,
+	    	SelectedDBName: '',
+	    	DBNames: [@DBNames@],
+	    	DictionaryData: {},
+	    	ColumnNameNotLike: 'Id,UseFTableCalculation,Created,CreatedBy,Modified,ModifiedBy,editElement',
+	    	SelectedRow: {}
+	    },
+	    methods:{
+		    getData(url = '', paramObj = {}) {return fetch(url, paramObj)
+                    .then(data => data.json())
+                    .catch(err => Promise.reject(err))
+            },
+            getSelectedDictionary(){
+            	this.DictionaryData = {};
+            	this.getData('GetPageText.ashx?Id=5ba9a80f-c4d9-4c45-8c66-703cc58520e3&SelectedDBName=' + this.SelectedDBName + '&ColumnNameNotLike=' + this.ColumnNameNotLike, {credentials: "same-origin", method: "GET" })
+				  .then(data => {
+					this.DictionaryData = data;
+					for(let i = 0; i < data.length; i++){
+						this.$set(this.DictionaryData[i], "editElement", false);
+					}
+				  })
+            },
+            Edit(value){
+            	console.log(value);
+            	this.editMode = true;
+            	console.log(this.DictionaryData[value]);
+            	if(this.DictionaryData[value].editElement === true){
+            		this.DictionaryData[value].editElement = false;
+            		this.SelectedRow = {};
+            	}
+            	else{
+            		this.DictionaryData[value].editElement = true;
+            		this.SelectedRow = this.DictionaryData[value];
+            	}
+            },
+            changeValue(index,value,targetName){
+		        this.$set(this.SelectedRow, targetName, value);
+            },
+            isHidden(name){
+            	let array = this.ColumnNameNotLike.split(',');
+            	for(let i = 0;i < array.length; i++){
+            		if(name == array[i]){
+            			return 'hidden'
+            		}
+            	}
+            	// if(name == 'Id' || name == 'UseFTableCalculation' || name == 'editElement' || name == 'Created' || name == 'CreatedBy' || name == 'Modified' || name == 'ModifiedBy'){
+            	// 	return 'hidden';
+            	// }
+            	return '';
+            },
+            isDisabled(name){
+            	if(name == 'Created' || name == 'CreatedBy' || name == 'Modified' || name == 'ModifiedBy'){
+            		return true;
+            	};
+            	return false;
+            },
+            addNewRow(){
+            	this.editMode = true;
+            	let newObj = {};
+            	//this.DictionaryData.push(this.SelectedRow);
+            	let arrayDictionary = this.DictionaryData[0]
+            	//console.log(arrayDictionary);
+            	for(value in arrayDictionary){
+            		//this.$set(this.newObject, value, ''); 
+            		newObj[value] = '';
+            		//console.log(value);
+            	}
+            	if(this.DictionaryData[this.DictionaryData.length-1].Id != ''){
+            		newObj.editElement = true;
+            		this.DictionaryData.push(newObj);
+            		this.SelectedRow = newObj;
+            	}
+            	//console.log(newObj);
+            },
+            Save(index){
+            	this.DictionaryData[index].editElement = false;
+            	this.editMode = false;
+            	//console.log(index)
+            },
+            Delete(index){
+            	if (confirm("Вы уверены?")) {
+            		this.DictionaryData.splice(index, 1);
+				} else {
+
+				}
+            	//console.log(deleteArray);
+            	//this.DictionaryData[index];
+            }
+		},
+	    computed:{
+	    	headers(){
+	    		if(this.DictionaryData[0] != undefined){
+	    			return Object.keys(this.DictionaryData[0]);
+	    		}
+	    		return '';
+	    	},
+	    	SaveFunction(){
+	    		// let test = 'INSERT INTO [dbo].[Ref_Cargo] ([NameShort],[NameShortRu],[FTable],[IsActive],[Country],[Created],[CreatedBy],[Modified],[ModifiedBy],[UseFTableCalculation])VALUES(\'NameShort\',\'NameShortRu\',\'FTable\',\'1\',\'Country\',GETDATE(),\'CreatedBy\',GETDATE(),\'ModifiedBy\',\'UseFTableCalculation\')'
+
+	    		// return test;
+	    	}
+	    },
+	    beforeMount(){
+	    	document.title = 'Samples Register';
+	    }
+	});
+</script>

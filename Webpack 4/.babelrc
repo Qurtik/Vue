@@ -1,0 +1,17 @@
+// Здесь описыватеся presets
+// Указываем установленные модули: @babel/env, @babel/preset-react 
+// (env, stage-3 - старые модули)
+// 
+{
+	presets: [
+		"@babel/env",
+		"@babel/preset-react"
+	]
+}
+
+
+
+// @babel/preset-env
+
+
+// @babel/core - Нужно только установить, добавлять не надо.
